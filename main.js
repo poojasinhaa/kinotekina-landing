@@ -95,8 +95,8 @@
             animate();
         };
 
-        const getDataButton = document.querySelector('.btn-primary');
-        if (getDataButton) {
+        const getDataButtons = document.querySelectorAll('.btn-primary');
+        getDataButtons.forEach(getDataButton => {
             const originalText = getDataButton.textContent;
             let isAnimating = false;
 
@@ -109,7 +109,93 @@
                     }, 800);
                 }
             });
+        });
+
+        const showCopyToast = () => {
+            const contactEmailButton = document.querySelector('.contact-email');
+            if (!contactEmailButton) return;
+
+            let toast = contactEmailButton.querySelector('.copy-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'copy-toast';
+                toast.textContent = 'EMAIL COPIED';
+                contactEmailButton.appendChild(toast);
+            }
+
+            toast.classList.remove('show');
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1200);
+        };
+
+        const contactEmailButton = document.querySelector('.contact-email');
+        if (contactEmailButton) {
+            contactEmailButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const email = 'hello@kinotekina.com';
+                
+                try {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        await navigator.clipboard.writeText(email);
+                        showCopyToast();
+                    } else {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = email;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showCopyToast();
+                    }
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                }
+            });
         }
+    };
+
+    const initParallaxFooter = () => {
+        const footerLogo = document.querySelector('.contact-footer-logo');
+        if (!footerLogo) return;
+
+        const handleScroll = () => {
+            const contactSection = document.querySelector('.contact-section');
+            if (!contactSection) return;
+
+            const rect = contactSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const sectionTop = rect.top;
+            const sectionBottom = rect.bottom;
+
+            if (sectionTop < windowHeight && sectionBottom > 0) {
+                const scrollProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / (windowHeight * 0.8)));
+                const parallaxOffset = (1 - scrollProgress) * 300;
+                const opacity = Math.min(0.12, scrollProgress * 0.15);
+
+                footerLogo.style.transform = `translateY(${parallaxOffset}px)`;
+                footerLogo.style.opacity = opacity;
+
+                if (scrollProgress > 0.2) {
+                    footerLogo.classList.add('visible');
+                } else {
+                    footerLogo.classList.remove('visible');
+                }
+            } else if (sectionTop >= windowHeight) {
+                footerLogo.style.transform = 'translateY(200px)';
+                footerLogo.style.opacity = '0';
+                footerLogo.classList.remove('visible');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
     };
 
     const init = () => {
@@ -118,11 +204,13 @@
                 initScrollReveal();
                 initSnapScroll();
                 initEncryptEffect();
+                initParallaxFooter();
             });
         } else {
             initScrollReveal();
             initSnapScroll();
             initEncryptEffect();
+            initParallaxFooter();
         }
     };
 

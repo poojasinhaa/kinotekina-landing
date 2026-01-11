@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KINOTEKINA — Humanoid Data Infrastructure</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Red+Hat+Mono:wght@400;500;600;700&family=Doto:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
         :root {
             --red: #FF0000;
@@ -26,7 +28,13 @@
         }
 
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
+            scroll-snap-type: y mandatory;
+            scroll-padding-top: 0;
+        }
+
+        html.no-snap-up {
+            scroll-snap-type: none;
         }
 
         body {
@@ -142,14 +150,18 @@
             50% { opacity: 0.3; }
         }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
+
+        /* Header Section */
+        .header-section {
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 120px 40px 80px;
+            justify-content: flex-start;
+            padding: 120px 40px 40px;
             position: relative;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            overflow: hidden;
         }
 
         .hero-badge {
@@ -173,8 +185,9 @@
         }
 
         .hero-title {
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 800;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
             line-height: 0.9;
             letter-spacing: -0.02em;
             margin-bottom: 40px;
@@ -187,13 +200,14 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.4rem);
+            font-family: 'Red Hat Mono', monospace;
+            font-size: clamp(0.75rem, 2vw, 1.15rem);
             font-weight: 400;
             color: var(--gray-light);
             max-width: 600px;
             line-height: 1.6;
             margin-bottom: 60px;
-            letter-spacing: 0.02em;
+            letter-spacing: -0.01em;
         }
 
         .hero-cta {
@@ -215,6 +229,9 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -238,6 +255,32 @@
             color: var(--red);
         }
 
+        .btn-secondary .arrow {
+            opacity: 0;
+            display: inline-block;
+            width: 0;
+            margin-left: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            vertical-align: middle;
+        }
+
+        .btn-secondary:hover .arrow {
+            opacity: 1;
+            margin-left: 8px;
+            width: 1em;
+            animation: arrowSlide 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrowSlide {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(4px);
+            }
+        }
+
         /* Hero side info */
         .hero-side {
             position: absolute;
@@ -254,14 +297,7 @@
 
         /* Stats bar */
         .stats-bar {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
-            right: 40px;
-            display: flex;
-            justify-content: space-between;
-            padding-top: 40px;
-            border-top: 1px solid var(--gray);
+            display: none;
         }
 
         .stat {
@@ -285,8 +321,14 @@
 
         /* Section styling */
         section {
+            min-height: 100vh;
+            height: 100vh;
             padding: 120px 40px;
             position: relative;
+            scroll-snap-align: start;
+            scroll-snap-stop: normal;
+            scroll-margin-top: 0;
+            box-sizing: border-box;
         }
 
         .section-header {
@@ -319,6 +361,8 @@
             background: var(--red);
             color: var(--black);
             padding: 100px 40px;
+            min-height: 100vh;
+            height: 100vh;
         }
 
         .red-section .section-number {
@@ -667,6 +711,8 @@
             background: var(--black);
             text-align: center;
             padding: 160px 40px;
+            min-height: 100vh;
+            height: 100vh;
         }
 
         .contact-title {
@@ -794,6 +840,7 @@
                 padding: 80px 20px;
             }
 
+            .header-section,
             .hero {
                 padding: 100px 20px 60px;
             }
@@ -848,7 +895,7 @@
         </div>
     </nav>
 
-    <section class="hero">
+    <section class="header-section hero">
         <div class="hero-badge">Forward Deployed Research Unit</div>
         <h1 class="hero-title">
             <span class="highlight">HUMANOID</span><br>
@@ -860,8 +907,8 @@
             We capture, process, and deliver manipulation trajectories at scale.
         </p>
         <div class="hero-cta">
-            <a href="#contact" class="btn btn-primary">GET DATA →</a>
-            <a href="#services" class="btn btn-secondary">LEARN MORE</a>
+            <a href="#contact" class="btn btn-primary">GET DATA</a>
+            <a href="#services" class="btn btn-secondary">LEARN MORE <span class="arrow">→</span></a>
         </div>
         <div class="hero-side">FIELD ZONE: INDUSTRIAL CORRIDOR</div>
         
@@ -1151,32 +1198,6 @@
         </div>
     </footer>
 
-    <script>
-        // Smooth reveal on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'all 0.8s ease-out';
-            observer.observe(section);
-        });
-
-        // Hero is always visible
-        document.querySelector('.hero').style.opacity = '1';
-        document.querySelector('.hero').style.transform = 'translateY(0)';
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>

@@ -95,8 +95,14 @@
         }
 
         .logo img {
-            height: 32px;
+            height: 64px;
             width: auto;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
         }
 
         .nav-links {
@@ -118,21 +124,21 @@
             color: var(--red);
         }
 
-        .nav-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.7rem;
-            color: var(--red);
-            letter-spacing: 0.1em;
+        .nav-login {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 10px 24px;
+            border: 1px solid var(--gray);
+            transition: all 0.3s;
         }
 
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--red);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .nav-login:hover {
+            border-color: var(--red);
+            color: var(--red);
         }
 
         @keyframes pulse {
@@ -159,18 +165,22 @@
             align-items: center;
             gap: 12px;
             padding: 8px 16px;
-            background: var(--red);
-            color: var(--black);
+            background: #232323;
+            color: var(--white);
             font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             margin-bottom: 40px;
             width: fit-content;
+            border-radius: 2px 0 12px 2px;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
         }
 
         .hero-badge::before {
             content: '◉';
+            color: var(--red);
             animation: pulse 1.5s infinite;
         }
 
@@ -314,6 +324,7 @@
             min-height: 100vh;
             height: 100vh;
             padding: 120px 40px;
+            margin-bottom: 100px;
             position: relative;
             scroll-snap-align: start;
             scroll-snap-stop: normal;
@@ -329,12 +340,15 @@
         }
 
         .section-number {
-            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
             color: var(--red);
-            letter-spacing: 0.2em;
+            letter-spacing: 0.05em;
         }
 
         .section-title {
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 800;
             letter-spacing: -0.02em;
@@ -369,63 +383,65 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2px;
-            background: var(--gray);
+            gap: 20px;
+            background: transparent;
         }
 
         .service-card {
-            background: var(--dark);
-            padding: 60px 40px;
+            background: #232323;
+            padding: 35px 30px;
             position: relative;
-            transition: all 0.4s;
-        }
-
-        .service-card:hover {
-            background: var(--gray-dark);
-        }
-
-        .service-card:hover .service-icon {
-            color: var(--red);
-            transform: scale(1.1);
+            border-radius: 2px 0 12px 2px;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 50px) 0, 100% 50px, 100% 100%, 0 100%);
         }
 
         .service-number {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
-            color: var(--red);
-            letter-spacing: 0.2em;
-            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            display: block;
         }
 
         .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
+            font-size: 2rem;
+            margin-bottom: 15px;
             display: block;
-            transition: all 0.4s;
+            color: rgba(255, 255, 255, 0.3);
         }
 
         .service-title {
-            font-size: 1.2rem;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
             font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            letter-spacing: -0.01em;
+            color: var(--white);
+            line-height: 1.2;
         }
 
         .service-desc {
-            font-size: 0.85rem;
-            color: var(--gray-light);
-            line-height: 1.7;
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
 
         .service-list {
             list-style: none;
-            margin-top: 30px;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .service-list li {
-            font-size: 0.75rem;
-            color: var(--off-white);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
             padding: 8px 0;
-            border-bottom: 1px solid var(--gray);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -434,6 +450,31 @@
         .service-list li::before {
             content: '→';
             color: var(--red);
+            font-weight: 700;
+        }
+
+        .service-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--white);
+            border-radius: 6px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .service-button:hover {
+            background: var(--white);
+            color: var(--black);
         }
 
         /* Problem section */
@@ -926,6 +967,10 @@
                 display: none;
             }
 
+            .nav-right {
+                gap: 20px;
+            }
+
             section {
                 padding: 80px 20px;
             }
@@ -970,17 +1015,16 @@
 
     <nav>
         <div class="logo">
-            <img src="logo.svg" alt="KINOTEKINA">
+            <img src="otonew.svg" alt="OTONOMY">
         </div>
-        <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#data">Data</a></li>
-            <li><a href="#tech">Technology</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="nav-status">
-            <span class="status-dot"></span>
-            DEPLOYED
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#data">Data</a></li>
+                <li><a href="#tech">Technology</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#login" class="nav-login">LOG IN</a>
         </div>
     </nav>
 
@@ -1040,6 +1084,7 @@
                     <li>Motion capture ground truth</li>
                     <li>Continuous deployment</li>
                 </ul>
+                <a href="#contact" class="service-button">Learn more →</a>
             </div>
             
             <div class="service-card">
@@ -1053,6 +1098,7 @@
                     <li>Temporal smoothing</li>
                     <li>Physics validation</li>
                 </ul>
+                <a href="#contact" class="service-button">Learn more →</a>
             </div>
             
             <div class="service-card">
@@ -1066,6 +1112,7 @@
                     <li>API access</li>
                     <li>Custom programs</li>
                 </ul>
+                <a href="#contact" class="service-button">Learn more →</a>
             </div>
         </div>
     </section>

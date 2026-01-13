@@ -198,6 +198,39 @@
         handleScroll();
     };
 
+    const initNavGlassEffect = () => {
+        const nav = document.querySelector('nav');
+        const headerSection = document.querySelector('.header-section');
+        if (!nav || !headerSection) return;
+
+        const handleScroll = () => {
+            const headerRect = headerSection.getBoundingClientRect();
+            const headerBottom = headerRect.bottom;
+            const windowHeight = window.innerHeight;
+            
+            if (headerBottom <= 0) {
+                const scrollPast = Math.abs(headerBottom);
+                const maxScroll = windowHeight * 0.5;
+                const progress = Math.min(1, scrollPast / maxScroll);
+                
+                const blur = progress * 12;
+                const opacity = 0.3 + (progress * 0.5);
+                const bgAlpha = Math.min(0.85, opacity);
+                
+                nav.style.backdropFilter = `blur(${blur}px)`;
+                nav.style.webkitBackdropFilter = `blur(${blur}px)`;
+                nav.style.background = `rgba(10, 10, 10, ${bgAlpha})`;
+            } else {
+                nav.style.backdropFilter = 'none';
+                nav.style.webkitBackdropFilter = 'none';
+                nav.style.background = 'linear-gradient(to bottom, var(--black) 0%, transparent 100%)';
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    };
+
     const init = () => {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
@@ -205,12 +238,14 @@
                 initSnapScroll();
                 initEncryptEffect();
                 initParallaxFooter();
+                initNavGlassEffect();
             });
         } else {
             initScrollReveal();
             initSnapScroll();
             initEncryptEffect();
             initParallaxFooter();
+            initNavGlassEffect();
         }
     };
 

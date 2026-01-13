@@ -86,6 +86,7 @@
             align-items: center;
             z-index: 1000;
             background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
+            transition: background 0.2s ease, backdrop-filter 0.2s ease;
         }
 
         .logo {
@@ -160,27 +161,69 @@
             overflow: hidden;
         }
 
+        .threejs-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.12;
+            transition: opacity 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .threejs-container:hover {
+            opacity: 0.25;
+        }
+
+        .threejs-container canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: grab;
+            pointer-events: auto;
+        }
+
+        .threejs-container canvas:active {
+            cursor: grabbing;
+        }
+
+        .header-section > *:not(.threejs-container) {
+            position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .header-section .btn,
+        .header-section a,
+        .header-section button {
+            pointer-events: auto;
+        }
+
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            padding: 8px 16px;
+            padding: 14px 16px;
             background: #232323;
             color: var(--white);
             font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            margin-bottom: 40px;
+            margin-top: 50px;
+            margin-bottom: 12px;
             width: fit-content;
-            border-radius: 2px 0 12px 2px;
+            border-radius: 2px 0 1px 2px;
             overflow: hidden;
-            clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
         }
 
         .hero-badge::before {
             content: '◉';
-            color: var(--red);
+            color: #00FF00;
             animation: pulse 1.5s infinite;
         }
 
@@ -226,33 +269,57 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn::before {
+            content: '✦';
+            font-size: 0.9rem;
+            display: inline-block;
         }
 
         .btn-primary {
-            background: var(--red);
+            background: linear-gradient(to bottom, #ff3333, #cc0000);
             color: var(--black);
         }
 
         .btn-primary:hover {
-            background: var(--white);
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.3);
+            background: linear-gradient(to bottom, #ff4444, #dd1111);
+            box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .btn-secondary {
-            background: transparent;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             color: var(--white);
-            border: 1px solid var(--gray);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
+            background: linear-gradient(to bottom, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.1));
             border-color: var(--red);
             color: var(--red);
+            box-shadow: 0 6px 16px rgba(255, 0, 0, 0.3), 0 3px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .btn-secondary .arrow {
@@ -362,20 +429,24 @@
 
         /* Red banner section */
         .red-section {
-            background: var(--red);
-            color: var(--black);
+            background: #1a1f2e;
+            color: var(--white);
             padding: 100px 40px;
             min-height: 100vh;
             height: 100vh;
         }
 
         .red-section .section-number {
-            color: var(--black);
-            opacity: 0.5;
+            color: var(--red);
+            opacity: 1;
+        }
+
+        .red-section .section-title {
+            color: var(--white);
         }
 
         .red-section .section-line {
-            background: var(--black);
+            background: var(--white);
             opacity: 0.2;
         }
 
@@ -393,13 +464,13 @@
             position: relative;
             border-radius: 2px 0 12px 2px;
             overflow: hidden;
-            clip-path: polygon(0 0, calc(100% - 50px) 0, 100% 50px, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
         }
 
         .service-number {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.8);
             letter-spacing: 0.1em;
             margin-bottom: 15px;
             text-transform: uppercase;
@@ -425,9 +496,9 @@
 
         .service-desc {
             font-family: 'Red Hat Mono', monospace;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
             margin-bottom: 20px;
         }
 
@@ -439,8 +510,8 @@
 
         .service-list li {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
             padding: 8px 0;
             display: flex;
             align-items: center;
@@ -481,73 +552,87 @@
         .problem-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
+            gap: 100px;
+            align-items: flex-start;
         }
 
         .problem-text h3 {
-            font-size: 1.5rem;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 700;
             margin-bottom: 30px;
-            color: var(--black);
+            color: var(--white);
+            line-height: 1.2;
         }
 
         .problem-text p {
-            font-size: 0.9rem;
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 1rem;
             line-height: 1.8;
-            color: var(--black);
-            opacity: 0.8;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .problem-approaches {
             display: grid;
-            gap: 20px;
+            gap: 40px;
         }
 
         .approach {
-            background: var(--black);
-            color: var(--white);
-            padding: 30px;
-            position: relative;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .approach-number {
+            width: 50px;
+            height: 50px;
+            background: var(--red);
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .approach-content {
+            flex: 1;
         }
 
         .approach-title {
-            font-size: 0.8rem;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 1.2rem;
             font-weight: 700;
-            letter-spacing: 0.1em;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .approach-title::before {
-            content: '✕';
-            color: var(--red);
+            letter-spacing: 0.02em;
+            margin-bottom: 12px;
+            color: var(--white);
         }
 
         .approach-desc {
-            font-size: 0.75rem;
-            color: var(--gray-light);
-            line-height: 1.6;
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
         }
+
 
         /* Data products */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2px;
-            background: var(--red);
+            gap: 20px;
+            background: transparent;
         }
 
         .product-card {
-            background: var(--dark);
-            padding: 60px;
+            background: #232323;
+            padding: 50px 40px;
             position: relative;
-        }
-
-        .product-card:hover {
-            background: var(--gray-dark);
+            border-radius: 0 0 8px 0;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%);
         }
 
         .product-header {
@@ -558,20 +643,24 @@
         }
 
         .product-name {
-            font-size: 1.1rem;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 0.05em;
+            color: var(--white);
         }
 
         .product-price {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 1.5rem;
             font-weight: 800;
             color: var(--red);
         }
 
         .product-desc {
-            font-size: 0.8rem;
-            color: var(--gray-light);
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.7;
             margin-bottom: 30px;
         }
@@ -581,9 +670,10 @@
         }
 
         .product-features li {
-            font-size: 0.7rem;
-            color: var(--off-white);
-            padding: 6px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 0;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -603,10 +693,13 @@
         }
 
         .tech-card {
-            border: 1px solid var(--gray);
+            background: #232323;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 40px 30px;
             position: relative;
-            transition: all 0.3s;
+            border-radius: 0 0 8px 0;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%);
         }
 
         .tech-card:hover {
@@ -626,10 +719,12 @@
         }
 
         .tech-title {
-            font-size: 0.85rem;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 20px;
             letter-spacing: 0.05em;
+            color: var(--white);
         }
 
         .tech-list {
@@ -637,10 +732,11 @@
         }
 
         .tech-list li {
-            font-size: 0.7rem;
-            color: var(--gray-light);
-            padding: 6px 0;
-            border-bottom: 1px solid var(--gray-dark);
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Blueprint section */
@@ -674,19 +770,23 @@
         .blueprint-visual {
             position: relative;
             padding: 60px;
-            border: 1px solid var(--orange);
-            background: rgba(255, 107, 0, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #232323;
+            border-radius: 0 0 8px 0;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%);
         }
 
         .blueprint-label {
             position: absolute;
             top: -10px;
             left: 20px;
-            background: var(--dark);
+            background: var(--black);
             padding: 0 10px;
             font-size: 0.6rem;
-            color: var(--orange);
+            color: var(--red);
             letter-spacing: 0.3em;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .pipeline-step {
@@ -694,7 +794,7 @@
             align-items: center;
             gap: 20px;
             padding: 20px 0;
-            border-bottom: 1px dashed var(--gray);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
         }
 
         .pipeline-step:last-child {
@@ -704,35 +804,43 @@
         .step-num {
             width: 40px;
             height: 40px;
-            border: 1px solid var(--orange);
+            border: 1px solid var(--red);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
             font-weight: 700;
-            color: var(--orange);
+            color: var(--red);
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .step-info h4 {
-            font-size: 0.85rem;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 4px;
+            color: var(--white);
         }
 
         .step-info p {
-            font-size: 0.7rem;
-            color: var(--gray-light);
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .blueprint-text h3 {
-            font-size: 2rem;
-            font-weight: 800;
+            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
             margin-bottom: 30px;
+            color: var(--white);
+            line-height: 1.2;
         }
 
         .blueprint-text p {
-            font-size: 0.9rem;
-            color: var(--gray-light);
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.8;
             margin-bottom: 40px;
         }
@@ -1029,6 +1137,7 @@
     </nav>
 
     <section class="header-section hero">
+        <div class="threejs-container" id="threejs-container"></div>
         <div class="hero-badge">Forward Deployed Research Unit</div>
         <h1 class="hero-title">
             <span class="highlight">HUMANOID</span><br>
@@ -1132,16 +1241,25 @@
             
             <div class="problem-approaches">
                 <div class="approach">
-                    <div class="approach-title">TELEOPERATION</div>
-                    <p class="approach-desc">Expensive hardware. Slow collection. Limited to lab environments. Doesn't scale.</p>
+                    <div class="approach-number">01</div>
+                    <div class="approach-content">
+                        <div class="approach-title">TELEOPERATION</div>
+                        <p class="approach-desc">Expensive hardware. Slow collection. Limited to lab environments. Doesn't scale.</p>
+                    </div>
                 </div>
                 <div class="approach">
-                    <div class="approach-title">SIMULATION</div>
-                    <p class="approach-desc">Sim-to-real gap. Limited task diversity. Unrealistic physics. Synthetic artifacts.</p>
+                    <div class="approach-number">02</div>
+                    <div class="approach-content">
+                        <div class="approach-title">SIMULATION</div>
+                        <p class="approach-desc">Sim-to-real gap. Limited task diversity. Unrealistic physics. Synthetic artifacts.</p>
+                    </div>
                 </div>
                 <div class="approach">
-                    <div class="approach-title">INTERNET VIDEO</div>
-                    <p class="approach-desc">No depth data. No 3D poses. Noisy labels. Inconsistent viewpoints. No ground truth.</p>
+                    <div class="approach-number">03</div>
+                    <div class="approach-content">
+                        <div class="approach-title">INTERNET VIDEO</div>
+                        <p class="approach-desc">No depth data. No 3D poses. Noisy labels. Inconsistent viewpoints. No ground truth.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1330,6 +1448,147 @@
         </div>
     </section>
 
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let container, camera, scene, renderer, controls;
+        const clock = new THREE.Clock();
+        let isInteracting = false;
+        let autoRotate = true;
+
+        function init() {
+            container = document.getElementById('threejs-container');
+            if (!container) return;
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 15000);
+            camera.position.z = 1000;
+
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x000000, 1, 15000);
+
+            const pointLight = new THREE.PointLight(0xff0000, 2, 0, 0);
+            pointLight.position.set(0, 0, 0);
+            scene.add(pointLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+            dirLight.position.set(0, 0, 1).normalize();
+            scene.add(dirLight);
+
+            const geometry = [
+                [new THREE.IcosahedronGeometry(100, 16), 50],
+                [new THREE.IcosahedronGeometry(100, 8), 300],
+                [new THREE.IcosahedronGeometry(100, 4), 1000],
+                [new THREE.IcosahedronGeometry(100, 2), 2000],
+                [new THREE.IcosahedronGeometry(100, 1), 8000]
+            ];
+
+            const material = new THREE.MeshLambertMaterial({ 
+                color: 0xffffff, 
+                wireframe: true 
+            });
+
+            for (let j = 0; j < 500; j++) {
+                const lod = new THREE.LOD();
+
+                for (let i = 0; i < geometry.length; i++) {
+                    const mesh = new THREE.Mesh(geometry[i][0], material);
+                    mesh.scale.set(1.5, 1.5, 1.5);
+                    mesh.updateMatrix();
+                    mesh.matrixAutoUpdate = false;
+                    lod.addLevel(mesh, geometry[i][1]);
+                }
+
+                lod.position.x = 10000 * (0.5 - Math.random());
+                lod.position.y = 7500 * (0.5 - Math.random());
+                lod.position.z = 10000 * (0.5 - Math.random());
+                lod.updateMatrix();
+                lod.matrixAutoUpdate = false;
+                scene.add(lod);
+            }
+
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: true,
+                alpha: true 
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setAnimationLoop(animate);
+            container.appendChild(renderer.domElement);
+
+            // Add OrbitControls for interaction
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = false;
+            controls.enablePan = false;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.5;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            // Disable auto-rotate when user interacts
+            controls.addEventListener('start', () => {
+                isInteracting = true;
+                autoRotate = false;
+                controls.autoRotate = false;
+            });
+
+            controls.addEventListener('end', () => {
+                isInteracting = false;
+                // Re-enable auto-rotate after a delay
+                setTimeout(() => {
+                    if (!isInteracting) {
+                        autoRotate = true;
+                        controls.autoRotate = true;
+                    }
+                }, 2000);
+            });
+
+            // Prevent scrolling when interacting with canvas
+            renderer.domElement.addEventListener('wheel', (e) => {
+                if (isInteracting) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            const delta = clock.getDelta();
+            
+            if (controls) {
+                controls.update();
+            }
+            
+            // Fallback animation when not interacting
+            if (!isInteracting && autoRotate) {
+                const time = clock.getElapsedTime();
+                camera.position.x = Math.sin(time * 0.1) * 500;
+                camera.position.y = Math.cos(time * 0.15) * 300;
+                camera.lookAt(0, 0, 0);
+            }
+            
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
 
     <script src="main.js"></script>
 </body>

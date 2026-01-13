@@ -87,17 +87,26 @@
             z-index: 1000;
             background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
             transition: background 0.2s ease, backdrop-filter 0.2s ease;
+            min-height: auto;
+            max-height: 80px;
+            overflow: hidden;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
         .logo img {
             height: 64px;
             width: auto;
+        }
+
+        nav.scrolled .logo {
+            opacity: 0;
+            visibility: hidden;
         }
 
         .nav-right {
@@ -125,6 +134,15 @@
             color: var(--red);
         }
 
+        nav.scrolled .nav-links a {
+            color: var(--red);
+        }
+
+        nav.scrolled .nav-links a:hover {
+            color: var(--red);
+            opacity: 0.8;
+        }
+
         .nav-login {
             color: var(--white);
             text-decoration: none;
@@ -140,6 +158,17 @@
         .nav-login:hover {
             border-color: var(--red);
             color: var(--red);
+        }
+
+        nav.scrolled .nav-login {
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        nav.scrolled .nav-login:hover {
+            color: var(--red);
+            border-color: var(--red);
+            opacity: 0.8;
         }
 
         @keyframes pulse {
@@ -159,6 +188,18 @@
             scroll-snap-align: start;
             scroll-snap-stop: always;
             overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.4), transparent);
+            z-index: 5;
+            pointer-events: none;
         }
 
         .threejs-container {
@@ -276,50 +317,91 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            background: #1a1a1a;
+            color: var(--white);
         }
 
-        .btn::before {
-            content: '✦';
-            font-size: 0.9rem;
-            display: inline-block;
-        }
 
         .btn-primary {
-            background: linear-gradient(to bottom, #ff3333, #cc0000);
+            background: var(--red);
             color: var(--black);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.4),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.2),
+                0 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(to bottom, #ff4444, #dd1111);
-            box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
-            transform: translateY(-1px);
+            background: #ff3333;
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.3),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.25),
+                0 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+            background: #cc0000;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.5),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Apply gray neumorphic style to all buttons except primary */
+        .btn:not(.btn-primary),
+        .service-button,
+        .contact-email {
+            background: #1a1a1a;
+            color: var(--white);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
+        }
+
+        .btn:not(.btn-primary):hover,
+        .service-button:hover,
+        .contact-email:hover {
+            background: #222222;
+            color: var(--red);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 0, 0, 0.1);
+        }
+
+        .btn:not(.btn-primary):active,
+        .service-button:active,
+        .contact-email:active {
+            background: #151515;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
         }
 
         .btn-secondary {
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            background: #1a1a1a;
             color: var(--white);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
         .btn-secondary:hover {
-            background: linear-gradient(to bottom, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.1));
-            border-color: var(--red);
+            background: #222222;
             color: var(--red);
-            box-shadow: 0 6px 16px rgba(255, 0, 0, 0.3), 0 3px 6px rgba(0, 0, 0, 0.3);
-            transform: translateY(-1px);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 0, 0, 0.1);
         }
 
         .btn-secondary:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
+            background: #151515;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
         }
 
         .btn-secondary .arrow {
@@ -536,16 +618,31 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             padding: 10px 20px;
-            background: transparent;
-            border: 2px solid var(--white);
-            border-radius: 6px;
-            transition: all 0.3s;
+            background: #1a1a1a;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
             margin-top: 10px;
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
         .service-button:hover {
-            background: var(--white);
-            color: var(--black);
+            background: #222222;
+            color: var(--red);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 0, 0, 0.1);
+        }
+
+        .service-button:active {
+            background: #151515;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
         }
 
         /* Problem section */
@@ -885,7 +982,7 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             position: relative;
             overflow: visible;
             display: inline-flex;
@@ -893,14 +990,30 @@
             justify-content: center;
             gap: 12px;
             padding: 16px 32px;
-            background: var(--red);
-            color: var(--black);
+            background: #1a1a1a;
+            color: var(--white);
             margin-bottom: 40px;
+            border-radius: 0;
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
         .contact-email:hover {
-            background: var(--white);
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.3);
+            background: #222222;
+            color: var(--red);
+            box-shadow: 
+                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 0, 0, 0.1);
+        }
+
+        .contact-email:active {
+            background: #151515;
+            box-shadow: 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
         }
 
         .contact-email .copy-icon {

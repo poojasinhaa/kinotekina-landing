@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     const initScrollReveal = () => {
@@ -36,18 +36,18 @@
 
         const handleScroll = () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
+
             if (!isScrolling) {
                 isScrolling = true;
-                
+
                 if (scrollTop > lastScrollTop) {
                     document.documentElement.classList.remove('no-snap-up');
                 } else {
                     document.documentElement.classList.add('no-snap-up');
                 }
-                
+
                 lastScrollTop = scrollTop;
-                
+
                 setTimeout(() => {
                     isScrolling = false;
                 }, 100);
@@ -126,7 +126,7 @@
             toast.classList.remove('show');
             void toast.offsetWidth;
             toast.classList.add('show');
-            
+
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 1200);
@@ -138,7 +138,7 @@
                 e.preventDefault();
                 e.stopPropagation();
                 const email = 'hello@kinotekina.com';
-                
+
                 try {
                     if (navigator.clipboard && navigator.clipboard.writeText) {
                         await navigator.clipboard.writeText(email);
@@ -207,23 +207,25 @@
             const headerRect = headerSection.getBoundingClientRect();
             const headerBottom = headerRect.bottom;
             const windowHeight = window.innerHeight;
-            
+
             if (headerBottom <= 0) {
                 const scrollPast = Math.abs(headerBottom);
                 const maxScroll = windowHeight * 0.5;
                 const progress = Math.min(1, scrollPast / maxScroll);
-                
+
                 const blur = progress * 12;
                 const opacity = 0.3 + (progress * 0.5);
                 const bgAlpha = Math.min(0.85, opacity);
-                
+
                 nav.style.backdropFilter = `blur(${blur}px)`;
                 nav.style.webkitBackdropFilter = `blur(${blur}px)`;
                 nav.style.background = `rgba(10, 10, 10, ${bgAlpha})`;
+                nav.classList.add('scrolled');
             } else {
                 nav.style.backdropFilter = 'none';
                 nav.style.webkitBackdropFilter = 'none';
                 nav.style.background = 'linear-gradient(to bottom, var(--black) 0%, transparent 100%)';
+                nav.classList.remove('scrolled');
             }
         };
 

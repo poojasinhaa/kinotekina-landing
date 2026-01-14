@@ -80,10 +80,14 @@
             align-items: center;
             z-index: 1000;
             background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
-            transition: background 0.2s ease, backdrop-filter 0.2s ease;
+            transition: background 0.2s ease, backdrop-filter 0.2s ease, transform 0.3s ease;
             min-height: auto;
             max-height: 80px;
             overflow: hidden;
+        }
+
+        nav.nav-hidden {
+            transform: translateY(-100%);
         }
 
         .logo {
@@ -138,31 +142,31 @@
         }
 
         .nav-login {
-            color: var(--white);
+            color: var(--black);
+            background: var(--white);
             text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            padding: 10px 24px;
-            border: 1px solid var(--gray);
-            transition: all 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
         }
 
         .nav-login:hover {
-            border-color: var(--red);
-            color: var(--red);
+            background: var(--off-white);
+            transform: translateY(-1px);
         }
 
         nav.scrolled .nav-login {
-            color: var(--red);
-            border-color: var(--red);
+            background: var(--white);
+            color: var(--black);
         }
 
         nav.scrolled .nav-login:hover {
-            color: var(--red);
-            border-color: var(--red);
-            opacity: 0.8;
+            background: var(--off-white);
         }
 
         @keyframes pulse {
@@ -295,105 +299,50 @@
         .btn {
             padding: 16px 32px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-transform: none;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             position: relative;
             overflow: visible;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            border-radius: 0;
-            background: #1a1a1a;
-            color: var(--white);
+            border-radius: 4px;
+            background: var(--white);
+            color: var(--black);
         }
 
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
 
         .btn-primary {
-            background: var(--red);
+            background: var(--white);
             color: var(--black);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.4),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.2),
-                0 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary:hover {
-            background: #ff3333;
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.3),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.25),
-                0 0 0 1px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary:active {
-            background: #cc0000;
-            box-shadow: 
-                inset 2px 2px 4px rgba(0, 0, 0, 0.5),
-                inset -2px -2px 4px rgba(255, 255, 255, 0.1);
-        }
-
-        /* Apply gray neumorphic style to all buttons except primary */
-        .btn:not(.btn-primary),
-        .service-button,
-        .contact-email {
-            background: #1a1a1a;
-            color: var(--white);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
-        }
-
-        .btn:not(.btn-primary):hover,
-        .service-button:hover,
-        .contact-email:hover {
-            background: #222222;
-            color: var(--red);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
-                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 0, 0, 0.1);
-        }
-
-        .btn:not(.btn-primary):active,
-        .service-button:active,
-        .contact-email:active {
-            background: #151515;
-            box-shadow: 
-                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
-                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
+            background: var(--off-white);
         }
 
         .btn-secondary {
-            background: #1a1a1a;
+            background: rgba(255, 255, 255, 0.1);
             color: var(--white);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
         .btn-secondary:hover {
-            background: #222222;
-            color: var(--red);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
-                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 0, 0, 0.1);
-        }
-
-        .btn-secondary:active {
-            background: #151515;
-            box-shadow: 
-                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
-                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .btn-secondary .arrow {
@@ -474,6 +423,19 @@
             min-height: auto;
         }
 
+        section#problem {
+            height: auto;
+            min-height: auto;
+            margin-bottom: 0;
+        }
+
+        section#services {
+            height: auto;
+            min-height: auto;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
         .section-header {
             display: flex;
             align-items: baseline;
@@ -510,6 +472,7 @@
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 500;
             letter-spacing: calc(-0.02em - 4px);
+            text-transform: uppercase;
         }
 
         .red-section .section-title {
@@ -522,116 +485,112 @@
             background: var(--gray);
         }
 
-        /* Red banner section */
-        .red-section {
+        /* What we do section - consistent style */
+        .services-section {
             background: var(--black);
-            color: var(--white);
             padding: 100px 80px;
-            min-height: 100vh;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
+            min-height: auto;
         }
 
-        .red-section::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #1a1f2e;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            pointer-events: none;
+        .services-section-inner {
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0;
+            padding: 80px;
         }
 
-        .red-section .section-number {
-            color: var(--red);
-            opacity: 1;
+        .services-header {
+            margin-bottom: 60px;
         }
 
-        .red-section .section-title {
+        .services-header h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
             color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: calc(-0.02em - 4px);
+            text-transform: uppercase;
         }
 
-        .red-section .section-line {
-            background: var(--white);
-            opacity: 0.2;
+        .services-header p {
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 700px;
         }
 
-        /* What we do cards */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            background: transparent;
+            gap: 16px;
         }
 
         .service-card {
-            background: #232323;
-            padding: 35px 30px;
-            position: relative;
-            border-radius: 2px 0 12px 2px;
-            overflow: hidden;
-            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: transparent;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
-        .service-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .service-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
-        .service-number {
+        .service-card-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .service-card-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: rgba(255, 255, 255, 0.5);
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .service-card-id {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.4);
             letter-spacing: 0.1em;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+            margin-bottom: 16px;
             display: block;
         }
 
-        .service-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            display: block;
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .service-title {
-            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: -0.01em;
+        .service-card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
             color: var(--white);
-            line-height: 1.2;
+            margin-bottom: 12px;
         }
 
-        .service-desc {
+        .service-card-desc {
             font-family: 'Red Hat Mono', monospace;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
             margin-bottom: 20px;
         }
 
         .service-list {
             list-style: none;
-            margin-top: 20px;
             margin-bottom: 20px;
         }
 
         .service-list li {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.9);
-            padding: 8px 0;
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 6px 0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -639,158 +598,141 @@
 
         .service-list li::before {
             content: '→';
-            color: var(--red);
-            font-weight: 700;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 400;
         }
 
-        .service-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        @media (max-width: 1100px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services-section {
+                padding: 80px 20px;
+            }
+
+            .services-section-inner {
+                padding: 40px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Problem section - PlayerZero style */
+        .problem-section {
+            background: var(--black);
+            padding: 100px 80px;
+            min-height: auto;
+        }
+
+        .problem-header {
+            margin-bottom: 60px;
+        }
+
+        .problem-header h2 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
             color: var(--white);
-            text-decoration: none;
+            margin-bottom: 16px;
+            letter-spacing: calc(-0.02em - 4px);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 10px 20px;
-            background: #1a1a1a;
-            border: none;
-            border-radius: 0;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
         }
 
-        .service-button:hover {
-            background: #222222;
-            color: var(--red);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
-                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 0, 0, 0.1);
+        .problem-header p {
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
         }
 
-        .service-button:active {
-            background: #151515;
-            box-shadow: 
-                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
-                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
-        }
-
-        /* Problem section */
         .problem-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 100px;
+            gap: 60px;
             align-items: flex-start;
-            position: relative;
         }
 
-        .red-section {
+        .problem-visual {
             position: relative;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1a26 50%, #1a1a1a 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
         }
 
-        .red-section::after {
+        .problem-visual::before {
             content: '';
             position: absolute;
-            left: calc(50% - 50px);
             top: 0;
-            width: 1px;
-            background: rgba(255, 255, 255, 0.2);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 30% 70%, rgba(0, 100, 100, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 30%, rgba(50, 80, 100, 0.2) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .problem-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            position: relative;
             z-index: 1;
-            height: 0;
-            transition: height 0.8s ease-out;
         }
 
-        .red-section.animate-vertical-line::after {
-            height: 100%;
+        .problem-status-badge::before {
+            content: '◉';
+            color: #00FF00;
+            font-size: 0.8rem;
         }
 
-        .problem-text {
-            max-width: 500px;
-        }
-
-        .problem-text h3 {
-            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
-            font-weight: 700;
-            margin-bottom: 30px;
+        .problem-status-badge span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
             color: var(--white);
-            line-height: 1.2;
-            text-transform: uppercase;
-        }
-
-        .problem-text p:first-of-type {
-            font-family: 'Red Hat Mono', monospace;
-            font-size: 1rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-
-        .problem-text p:last-of-type {
-            font-family: 'Red Hat Mono', monospace;
-            font-size: 1rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 400;
+            letter-spacing: 0.02em;
         }
 
         .problem-approaches {
-            display: grid;
-            gap: 40px;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
         }
 
         .approach {
             display: flex;
             gap: 20px;
             align-items: flex-start;
-            padding-bottom: 40px;
-            position: relative;
         }
 
-        .approach::after {
-            content: '';
-            position: absolute;
-            left: -100px;
-            bottom: 0;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.2);
-            width: 0;
-            transition: width 0.6s ease-out;
-        }
-
-        .approach.animate-line::after {
-            width: calc(100% + 140px);
-        }
-
-        .approach:last-child {
-            padding-bottom: 0;
-        }
-
-        .approach:last-child::after {
-            display: none;
-        }
-
-        .approach-number {
-            width: 50px;
-            height: 50px;
-            background: var(--red);
-            color: var(--black);
+        .approach-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 700;
-            flex-shrink: 0;
+        }
+
+        .approach-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: rgba(255, 255, 255, 0.5);
+            fill: none;
+            stroke-width: 1.5;
         }
 
         .approach-content {
@@ -798,187 +740,154 @@
         }
 
         .approach-title {
-            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--white);
+            margin-bottom: 8px;
         }
 
         .approach-desc {
             font-family: 'Red Hat Mono', monospace;
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.7;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
         }
 
-
-        /* Data products */
-        section#data {
-            position: relative;
-            overflow: visible;
+        .problem-cta {
+            margin-top: 36px;
+            padding-left: 56px;
         }
 
-        section#data .section-header {
-            position: relative;
-            margin-bottom: 32px;
+        .problem-cta .btn {
+            background: var(--white);
+            color: var(--black);
         }
 
-        section#data .section-header::after {
-            content: '';
-            position: absolute;
-            top: calc(100% + 32px);
-            left: -40px;
-            right: -40px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1;
+        .problem-cta .btn:hover {
+            background: var(--off-white);
         }
 
-        .products-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 0;
-            background: transparent;
-            position: relative;
-            padding-top: 32px;
-            padding-bottom: 32px;
+        @media (max-width: 900px) {
+            .problem-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .problem-visual {
+                aspect-ratio: 16/9;
+            }
         }
 
-        .products-grid::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: calc(37.5% - 0.5px);
-            width: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1;
-        }
-
-        .products-grid::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: calc(62.5% - 0.5px);
-            width: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1;
-        }
-
-        .products-grid-vertical-line-3 {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: calc(87.5% - 0.5px);
-            width: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-
-        .products-grid-bottom-line {
-            position: absolute;
-            left: -40px;
-            right: -40px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1;
-            bottom: 0;
-        }
-
-        .product-intro {
-            padding-right: 32px;
-            padding-left: 0;
+        /* Legacy red-section styles for compatibility */
+        .red-section {
             position: relative;
         }
 
-        .product-intro-label {
+
+        /* Data Products - Card style matching tech-stack */
+        .data-section-inner {
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 80px;
+        }
+
+        .data-headline {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--red);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .product-intro-title {
-            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 30px;
-            line-height: 1.2;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .product-intro-desc {
-            font-family: 'Red Hat Mono', monospace;
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.7;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .product-column {
-            padding: 0 32px;
-            position: relative;
-        }
-
-
-        .product-id {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
+            line-height: 1.3;
             color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 0.1em;
-            margin-bottom: 30px;
-            display: block;
+            max-width: 900px;
+            margin-bottom: 60px;
+            letter-spacing: calc(-0.02em - 4px);
         }
 
-        .product-icon-wrapper {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #232323;
+        .data-headline .highlight {
+            color: var(--white);
+        }
+
+        .data-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .data-card {
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: transparent;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .data-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .data-card-icon {
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
-        .product-icon {
-            font-size: 1.5rem;
+        .data-card-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: rgba(255, 255, 255, 0.5);
+        }
+
+        .data-card-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .data-card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
             color: var(--white);
+            margin-bottom: 12px;
         }
 
-        .product-name {
-            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            color: var(--white);
-            margin-bottom: 20px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            line-height: 1.3;
-        }
-
-        .product-desc {
+        .data-card-desc {
             font-family: 'Red Hat Mono', monospace;
-            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.7;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1100px) {
+            .data-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .data-section-inner {
+                padding: 40px;
+            }
+
+            .data-cards {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Tech stack - PlayerZero style */
+        section#tech-stack {
+            margin-top: 0;
+            padding-top: 80px;
+        }
+
         .tech-section-inner {
             background: #141414;
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -988,13 +897,13 @@
 
         .tech-headline {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 400;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
             line-height: 1.3;
             color: rgba(255, 255, 255, 0.5);
-            max-width: 800px;
+            max-width: 900px;
             margin-bottom: 60px;
-            letter-spacing: -0.02em;
+            letter-spacing: calc(-0.02em - 4px);
         }
 
         .tech-headline .highlight {
@@ -1059,17 +968,23 @@
         .tech-view-more {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
-            color: var(--white);
+            font-weight: 500;
+            color: var(--black);
+            background: var(--white);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-top: 24px;
-            transition: opacity 0.3s ease;
+            padding: 16px 32px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            width: fit-content;
         }
 
         .tech-view-more:hover {
-            opacity: 0.7;
+            background: var(--off-white);
+            transform: translateY(-1px);
         }
 
         @media (max-width: 900px) {
@@ -1085,9 +1000,12 @@
 
         /* Blueprint section - PlayerZero style */
         .blueprint-section {
-            background: var(--dark);
+            background: transparent;
             position: relative;
             overflow: hidden;
+            margin-bottom: 0;
+            min-height: auto;
+            padding-bottom: 60px;
         }
 
         .blueprint-header {
@@ -1096,11 +1014,12 @@
 
         .blueprint-header h2 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            font-weight: 400;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
             color: var(--white);
             margin-bottom: 16px;
-            letter-spacing: -0.02em;
+            letter-spacing: calc(-0.02em - 4px);
+            text-transform: uppercase;
         }
 
         .blueprint-header p {
@@ -1202,45 +1121,33 @@
 
         .contact-email {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             position: relative;
             overflow: visible;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             padding: 16px 32px;
-            background: #1a1a1a;
+            background: var(--white);
             color: var(--white);
             margin-bottom: 40px;
-            border-radius: 0;
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.6),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.05),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
         }
 
         .contact-email:hover {
-            background: #222222;
-            color: var(--red);
-            box-shadow: 
-                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
-                inset 2px 2px 4px rgba(255, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 0, 0, 0.1);
+            background: var(--off-white);
+            transform: translateY(-1px);
         }
 
         .contact-email:active {
-            background: #151515;
-            box-shadow: 
-                inset 2px 2px 4px rgba(0, 0, 0, 0.7),
-                inset -2px -2px 4px rgba(255, 255, 255, 0.02);
+            transform: translateY(0);
         }
 
         .contact-email .copy-icon {
@@ -1273,7 +1180,7 @@
             border: 1px solid var(--red);
             color: var(--white);
             padding: 12px 24px;
-            border-radius: 50px;
+            border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             letter-spacing: 0.1em;
@@ -1329,13 +1236,27 @@
 
         /* Footer - MAYDA Style */
         footer {
-            background: var(--red);
+            background: #F90F06;
             padding: 60px 80px 80px;
             position: relative;
             overflow: hidden;
             min-height: 400px;
             display: flex;
             flex-direction: column;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: 0;
+            bottom: 0;
+            width: 50%;
+            background: url('hands website.png') no-repeat right center;
+            background-size: contain;
+            background-position: right calc(50% - 100px);
+            opacity: 1;
+            pointer-events: none;
         }
 
         .footer-cta-section {
@@ -1389,22 +1310,22 @@
         .footer-cta-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--red);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ffffff;
             background: var(--black);
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 14px 28px;
-            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+            padding: 16px 32px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
         }
 
         .footer-cta-btn:hover {
             background: var(--dark);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .footer-top {
@@ -1553,7 +1474,6 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .services-grid,
             .products-grid {
                 grid-template-columns: 1fr;
             }
@@ -1562,7 +1482,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .problem-grid,
             .blueprint-content {
                 grid-template-columns: 1fr;
             }
@@ -1574,6 +1493,14 @@
             .stats-bar {
                 flex-wrap: wrap;
                 gap: 30px;
+            }
+
+            .problem-section {
+                padding: 80px 40px;
+            }
+
+            .services-section {
+                padding: 80px 40px;
             }
         }
 
@@ -1668,7 +1595,7 @@
 
         .timeline-item.active .timeline-line {
             background: var(--white);
-            width: 18px;
+            width: 32px;
         }
 
         .timeline-item.active .timeline-number {
@@ -1788,143 +1715,196 @@
         </div>
     </section>
 
-    <section id="services">
-        <div class="section-header">
-            <span class="section-number">01</span>
-            <h2 class="section-title">WHAT WE DO</h2>
-        </div>
-        
-        <div class="services-grid">
-            <div class="service-card">
-                <span class="service-number">01.1</span>
-                <span class="service-icon">◉</span>
-                <h3 class="service-title">DATA COLLECTION</h3>
-                <p class="service-desc">Factory-embedded researchers capturing real-world manipulation data across industrial environments.</p>
-                <ul class="service-list">
-                    <li>Egocentric video capture</li>
-                    <li>Multi-view wrist cameras</li>
-                    <li>Motion capture ground truth</li>
-                    <li>Continuous deployment</li>
-                </ul>
-                <a href="#contact" class="service-button">Learn more →</a>
+    <section id="services" class="services-section">
+        <div class="services-section-inner">
+            <div class="services-header">
+                <h2>WHAT WE DO</h2>
+                <p>End-to-end humanoid data infrastructure from factory floor to training pipeline.</p>
             </div>
-            
-            <div class="service-card">
-                <span class="service-number">01.2</span>
-                <span class="service-icon">◈</span>
-                <h3 class="service-title">DATA PROCESSING</h3>
-                <p class="service-desc">Automated extraction of high-fidelity hand trajectories from raw video streams.</p>
-                <ul class="service-list">
-                    <li>3D pose estimation</li>
-                    <li>Depth-enhanced extraction</li>
-                    <li>Temporal smoothing</li>
-                    <li>Physics validation</li>
-                </ul>
-                <a href="#contact" class="service-button">Learn more →</a>
-            </div>
-            
-            <div class="service-card">
-                <span class="service-number">01.3</span>
-                <span class="service-icon">◇</span>
-                <h3 class="service-title">DATA DELIVERY</h3>
-                <p class="service-desc">Training-ready trajectory datasets for humanoid robot learning systems.</p>
-                <ul class="service-list">
-                    <li>Standardized formats</li>
-                    <li>Task-labeled sequences</li>
-                    <li>API access</li>
-                    <li>Custom programs</li>
-                </ul>
-                <a href="#contact" class="service-button">Learn more →</a>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="service-card-id">SVC-01</span>
+                    <h3 class="service-card-title">Data Collection</h3>
+                    <p class="service-card-desc">Factory-embedded researchers capturing real-world manipulation data across industrial environments.</p>
+                    <ul class="service-list">
+                        <li>Egocentric video capture</li>
+                        <li>Multi-view wrist cameras</li>
+                        <li>Motion capture ground truth</li>
+                        <li>Continuous deployment</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="service-card-id">SVC-02</span>
+                    <h3 class="service-card-title">Data Processing</h3>
+                    <p class="service-card-desc">Automated extraction of high-fidelity hand trajectories from raw video streams.</p>
+                    <ul class="service-list">
+                        <li>3D pose estimation</li>
+                        <li>Depth-enhanced extraction</li>
+                        <li>Temporal smoothing</li>
+                        <li>Physics validation</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="service-card-id">SVC-03</span>
+                    <h3 class="service-card-title">Data Delivery</h3>
+                    <p class="service-card-desc">Training-ready trajectory datasets for humanoid robot learning systems.</p>
+                    <ul class="service-list">
+                        <li>Standardized formats</li>
+                        <li>Task-labeled sequences</li>
+                        <li>API access</li>
+                        <li>Custom programs</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="problem" class="red-section">
-        <div class="section-header">
-            <span class="section-number">02</span>
-            <h2 class="section-title">THE PROBLEM</h2>
+    <section id="problem" class="problem-section">
+        <div class="problem-header">
+            <h2>THE PROBLEM</h2>
+            <p>Humanoid robots need to learn manipulation from human demonstrations. Current approaches don't scale.</p>
         </div>
-        
+
         <div class="problem-grid">
-            <div class="problem-text">
-                <h3>Humanoid robots need to learn manipulation from human demonstrations.</h3>
-                <p>Current approaches don't scale. Teleoperation is expensive. Simulation has a reality gap. Internet video lacks depth and 3D poses.</p>
-                <p>The industry needs dedicated data infrastructure — real humans, real tasks, real factories.</p>
+            <div class="problem-visual">
+                <div class="problem-status-badge">
+                    <span>Real factory data • Sub-mm accuracy</span>
+                </div>
             </div>
-            
+
             <div class="problem-approaches">
                 <div class="approach">
-                    <div class="approach-number">01</div>
+                    <div class="approach-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="approach-content">
-                        <div class="approach-title">TELEOPERATION</div>
-                        <p class="approach-desc">Expensive hardware. Slow collection. Limited to lab environments. Doesn't scale.</p>
+                        <div class="approach-title">Teleoperation</div>
+                        <p class="approach-desc">Expensive hardware. Slow collection. Limited to lab environments. Doesn't scale to real-world complexity.</p>
                     </div>
                 </div>
                 <div class="approach">
-                    <div class="approach-number">02</div>
+                    <div class="approach-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="approach-content">
-                        <div class="approach-title">SIMULATION</div>
-                        <p class="approach-desc">Sim-to-real gap. Limited task diversity. Unrealistic physics. Synthetic artifacts.</p>
+                        <div class="approach-title">Simulation</div>
+                        <p class="approach-desc">Sim-to-real gap. Limited task diversity. Unrealistic physics. Synthetic artifacts that don't transfer.</p>
                     </div>
                 </div>
                 <div class="approach">
-                    <div class="approach-number">03</div>
-                    <div class="approach-content">
-                        <div class="approach-title">INTERNET VIDEO</div>
-                        <p class="approach-desc">No depth data. No 3D poses. Noisy labels. Inconsistent viewpoints. No ground truth.</p>
+                    <div class="approach-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <div class="approach-content">
+                        <div class="approach-title">Internet Video</div>
+                        <p class="approach-desc">No depth data. No 3D poses. Noisy labels. Inconsistent viewpoints. No ground truth validation.</p>
+                    </div>
+                </div>
+                <div class="approach">
+                    <div class="approach-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="approach-content">
+                        <div class="approach-title">Our Solution</div>
+                        <p class="approach-desc">Dedicated data infrastructure — real humans, real tasks, real factories. Physics-validated trajectories at scale.</p>
+                    </div>
+                </div>
+
+                <div class="problem-cta">
+                    <a href="#data" class="btn">SEE OUR DATA PRODUCTS</a>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="data">
-        <div class="section-header">
-            <span class="section-number">03</span>
-            <h2 class="section-title">DATA PRODUCTS</h2>
-        </div>
-        
-        <div class="products-grid">
-            <div class="products-grid-bottom-line"></div>
-            <div class="products-grid-vertical-line-3"></div>
-            <div class="product-intro">
-                <span class="product-intro-label">DATA PRODUCTS</span>
-                <h3 class="product-intro-title">From factory to training.</h3>
-                <p class="product-intro-desc">We don't just give you raw data. We provide three actionable data products derived from factory-embedded collection, updated continuously.</p>
-            </div>
-            
-            <div class="product-column">
-                <span class="product-id">VID-01</span>
-                <div class="product-icon-wrapper">
-                    <span class="product-icon">◉</span>
+        <div class="data-section-inner">
+            <h2 class="data-headline">
+                FROM <span class="highlight">FACTORY TO TRAINING.</span> THREE ACTIONABLE DATA PRODUCTS, <span class="highlight">UPDATED CONTINUOUSLY.</span>
+            </h2>
+
+            <div class="data-cards">
+                <div class="data-card">
+                    <div class="data-card-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="6" cy="6" r="3"/>
+                            <circle cx="18" cy="6" r="3"/>
+                            <circle cx="6" cy="18" r="3"/>
+                            <circle cx="18" cy="18" r="3"/>
+                            <rect x="10" y="10" width="4" height="4" rx="1"/>
+                        </svg>
+                    </div>
+                    <span class="data-card-id">VID-01</span>
+                    <h3 class="data-card-title">Raw Video Streams</h3>
+                    <p class="data-card-desc">Egocentric factory footage. Multi-view optional. Bulk licensing available.</p>
                 </div>
-                <h3 class="product-name">RAW VIDEO STREAMS</h3>
-                <p class="product-desc">Egocentric factory footage. Multi-view optional. Bulk licensing available.</p>
-            </div>
-            
-            <div class="product-column">
-                <span class="product-id">TRJ-02</span>
-                <div class="product-icon-wrapper">
-                    <span class="product-icon">◈</span>
+
+                <div class="data-card">
+                    <div class="data-card-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 17L9 11L13 15L21 7"/>
+                            <circle cx="3" cy="17" r="2"/>
+                            <circle cx="9" cy="11" r="2"/>
+                            <circle cx="13" cy="15" r="2"/>
+                            <circle cx="21" cy="7" r="2"/>
+                        </svg>
+                    </div>
+                    <span class="data-card-id">TRJ-02</span>
+                    <h3 class="data-card-title">Extracted Trajectories</h3>
+                    <p class="data-card-desc">3D hand joint sequences. Quality-filtered and physics-validated.</p>
                 </div>
-                <h3 class="product-name">EXTRACTED TRAJECTORIES</h3>
-                <p class="product-desc">3D hand joint sequences. Quality-filtered and physics-validated.</p>
-            </div>
-            
-            <div class="product-column">
-                <span class="product-id">DSK-03</span>
-                <div class="product-icon-wrapper">
-                    <span class="product-icon">◇</span>
+
+                <div class="data-card">
+                    <div class="data-card-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="2" width="6" height="6" rx="1"/>
+                            <rect x="9" y="2" width="6" height="6" rx="1"/>
+                            <rect x="16" y="2" width="6" height="6" rx="1"/>
+                            <rect x="2" y="9" width="6" height="6" rx="1"/>
+                            <rect x="9" y="9" width="6" height="6" rx="1"/>
+                            <rect x="16" y="9" width="6" height="6" rx="1"/>
+                            <rect x="2" y="16" width="6" height="6" rx="1"/>
+                            <rect x="9" y="16" width="6" height="6" rx="1"/>
+                            <rect x="16" y="16" width="6" height="6" rx="1"/>
+                        </svg>
+                    </div>
+                    <span class="data-card-id">DSK-03</span>
+                    <h3 class="data-card-title">Task-Labeled Datasets</h3>
+                    <p class="data-card-desc">Annotated manipulation primitives with domain-specific taxonomies.</p>
                 </div>
-                <h3 class="product-name">TASK-LABELED DATASETS</h3>
-                <p class="product-desc">Annotated manipulation primitives with domain-specific taxonomies.</p>
             </div>
         </div>
     </section>
 
     <section id="tech" class="blueprint-section">
         <div class="blueprint-header">
-            <h2>Research-grade extraction pipeline</h2>
+            <h2>RESEARCH-GRADE EXTRACTION PIPELINE</h2>
             <p>Our pipeline combines state-of-the-art pose estimation with monocular depth, multi-view triangulation, and temporal consistency.</p>
         </div>
 
@@ -2006,7 +1986,7 @@
     <section id="tech-stack">
         <div class="tech-section-inner">
             <h2 class="tech-headline">
-                Otonomy is building <span class="highlight">humanoid data infrastructure</span> to capture and process <span class="highlight">manipulation trajectories at scale.</span>
+                OTONOMY IS BUILDING <span class="highlight">HUMANOID DATA INFRASTRUCTURE</span> TO CAPTURE AND PROCESS <span class="highlight">MANIPULATION TRAJECTORIES AT SCALE.</span>
             </h2>
 
             <div class="tech-content">
@@ -2037,7 +2017,7 @@
                         <span class="tech-card-tag">Infrastructure</span>
                     </div>
 
-                    <a href="#contact" class="tech-view-more">View technical specs →</a>
+                    <a href="#contact" class="tech-view-more">VIEW TECHNICAL SPECS →</a>
                 </div>
             </div>
         </div>
@@ -2262,6 +2242,42 @@
 
             window.addEventListener('scroll', updateActiveSection);
             updateActiveSection();
+        })();
+
+        // Hide nav on scroll down, show on scroll up
+        (function() {
+            const nav = document.querySelector('nav');
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+            const headerHeight = window.innerHeight;
+
+            function updateNav() {
+                const currentScrollY = window.scrollY;
+
+                // Only apply hide/show behavior after scrolling past header
+                if (currentScrollY > headerHeight) {
+                    if (currentScrollY > lastScrollY) {
+                        // Scrolling down - hide nav
+                        nav.classList.add('nav-hidden');
+                    } else {
+                        // Scrolling up - show nav
+                        nav.classList.remove('nav-hidden');
+                    }
+                } else {
+                    // In header area - always show nav
+                    nav.classList.remove('nav-hidden');
+                }
+
+                lastScrollY = currentScrollY;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(updateNav);
+                    ticking = true;
+                }
+            });
         })();
     </script>
 </body>

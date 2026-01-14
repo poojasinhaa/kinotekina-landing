@@ -471,7 +471,6 @@
         /* Section styling */
         section {
             min-height: 100vh;
-            height: 100vh;
             padding: 120px 40px;
             margin-bottom: 100px;
             position: relative;
@@ -481,26 +480,51 @@
             box-sizing: border-box;
         }
 
+        section#data {
+            height: auto;
+            min-height: auto;
+        }
+
         .section-header {
             display: flex;
             align-items: baseline;
             gap: 20px;
             margin-bottom: 80px;
+            position: relative;
+        }
+
+        section#services {
+            position: relative;
+        }
+
+        section#services .section-header::before {
+            content: '';
+            position: absolute;
+            top: -64px;
+            left: -40px;
+            right: -40px;
+            width: calc(100% + 80px);
+            height: 1px;
+            background: var(--gray);
         }
 
         .section-number {
             font-family: 'JetBrains Mono', monospace;
             font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 400;
+            font-weight: 300;
             color: var(--red);
             letter-spacing: 0.05em;
         }
 
         .section-title {
-            font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'JetBrains Mono', monospace;
             font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
+            font-weight: 500;
+            letter-spacing: calc(-0.02em - 4px);
+        }
+
+        .red-section .section-title {
+            text-transform: uppercase;
         }
 
         .section-line {
@@ -511,11 +535,27 @@
 
         /* Red banner section */
         .red-section {
-            background: #1a1f2e;
+            background: var(--black);
             color: var(--white);
             padding: 100px 40px;
             min-height: 100vh;
             height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .red-section::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1f2e;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            pointer-events: none;
         }
 
         .red-section .section-number {
@@ -547,6 +587,14 @@
             border-radius: 2px 0 12px 2px;
             overflow: hidden;
             clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .service-number {
@@ -651,33 +699,95 @@
             grid-template-columns: 1fr 1fr;
             gap: 100px;
             align-items: flex-start;
+            position: relative;
+        }
+
+        .red-section {
+            position: relative;
+        }
+
+        .red-section::after {
+            content: '';
+            position: absolute;
+            left: calc(50% - 50px);
+            top: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+            height: 0;
+            transition: height 0.8s ease-out;
+        }
+
+        .red-section.animate-vertical-line::after {
+            height: 100%;
+        }
+
+        .problem-text {
+            max-width: 500px;
         }
 
         .problem-text h3 {
             font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
             font-weight: 700;
             margin-bottom: 30px;
             color: var(--white);
             line-height: 1.2;
+            text-transform: uppercase;
         }
 
-        .problem-text p {
+        .problem-text p:first-of-type {
             font-family: 'Red Hat Mono', monospace;
             font-size: 1rem;
             line-height: 1.8;
             color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .problem-text p:last-of-type {
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
         }
 
         .problem-approaches {
             display: grid;
             gap: 40px;
+            position: relative;
         }
 
         .approach {
             display: flex;
             gap: 20px;
             align-items: flex-start;
+            padding-bottom: 40px;
+            position: relative;
+        }
+
+        .approach::after {
+            content: '';
+            position: absolute;
+            left: -100px;
+            bottom: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 0;
+            transition: width 0.6s ease-out;
+        }
+
+        .approach.animate-line::after {
+            width: calc(100% + 140px);
+        }
+
+        .approach:last-child {
+            padding-bottom: 0;
+        }
+
+        .approach:last-child::after {
+            display: none;
         }
 
         .approach-number {
@@ -1291,7 +1401,6 @@
         <div class="section-header">
             <span class="section-number">01</span>
             <h2 class="section-title">WHAT WE DO</h2>
-            <div class="section-line"></div>
         </div>
         
         <div class="services-grid">
@@ -1343,13 +1452,13 @@
         <div class="section-header">
             <span class="section-number">02</span>
             <h2 class="section-title">THE PROBLEM</h2>
-            <div class="section-line"></div>
         </div>
         
         <div class="problem-grid">
             <div class="problem-text">
                 <h3>Humanoid robots need to learn manipulation from human demonstrations.</h3>
-                <p>Current approaches don't scale. Teleoperation is expensive. Simulation has a reality gap. Internet video lacks depth and 3D poses. The industry needs dedicated data infrastructure — real humans, real tasks, real factories.</p>
+                <p>Current approaches don't scale. Teleoperation is expensive. Simulation has a reality gap. Internet video lacks depth and 3D poses.</p>
+                <p>The industry needs dedicated data infrastructure — real humans, real tasks, real factories.</p>
             </div>
             
             <div class="problem-approaches">

@@ -233,6 +233,152 @@
         handleScroll();
     };
 
+    const initProblemSectionBgTransition = () => {
+        const problemSection = document.querySelector('.red-section');
+        const servicesSection = document.querySelector('#services');
+        if (!problemSection || !servicesSection) return;
+
+        // Create a style element to control the ::before pseudo-element
+        let styleElement = document.getElementById('problem-bg-transition-style');
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = 'problem-bg-transition-style';
+            document.head.appendChild(styleElement);
+        }
+
+        const handleScroll = () => {
+            const problemRect = problemSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const windowTop = window.scrollY || window.pageYOffset;
+
+            const problemTop = problemRect.top;
+            const problemBottom = problemRect.bottom;
+            const problemHeight = problemRect.height;
+
+            let progress = 0;
+
+            // Calculate when section is entering, in view, or leaving
+            if (problemTop < windowHeight && problemBottom > 0) {
+                // Section is in or entering viewport
+                if (problemTop >= 0) {
+                    // Entering from bottom - fade in
+                    // Start fading when top enters viewport, complete when top reaches 0
+                    const fadeInStart = windowHeight;
+                    const fadeInEnd = 0;
+                    const fadeInDistance = fadeInStart - fadeInEnd;
+                    const currentDistance = problemTop - fadeInEnd;
+                    progress = Math.max(0, Math.min(1, 1 - (currentDistance / fadeInDistance)));
+                } else if (problemBottom <= windowHeight) {
+                    // Leaving from top - fade out
+                    // Start fading when bottom reaches viewport height, complete when bottom reaches 0
+                    const fadeOutStart = windowHeight;
+                    const fadeOutEnd = 0;
+                    const fadeOutDistance = fadeOutStart - fadeOutEnd;
+                    const currentDistance = problemBottom - fadeOutEnd;
+                    progress = Math.max(0, Math.min(1, currentDistance / fadeOutDistance));
+                } else {
+                    // Fully in viewport - fully visible
+                    progress = 1;
+                }
+            } else {
+                // Section is out of viewport
+                progress = 0;
+            }
+
+            // Update the style element to control ::before opacity
+            styleElement.textContent = `
+                .red-section::before {
+                    opacity: ${progress} !important;
+                }
+            `;
+
+            if (progress > 0) {
+                problemSection.classList.add('bg-transitioning');
+            } else {
+                problemSection.classList.remove('bg-transitioning');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    };
+
+    const initServiceCardsAnimation = () => {
+        const servicesSection = document.querySelector('#services');
+        const serviceCards = document.querySelectorAll('.service-card');
+
+        if (!servicesSection || serviceCards.length === 0) return;
+
+        let cardsAnimated = false;
+
+        const animateCards = () => {
+            if (cardsAnimated) return;
+            cardsAnimated = true;
+
+            serviceCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 150); // 150ms delay between each card (faster)
+            });
+        };
+
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCards();
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(servicesSection);
+    };
+
+    const initProblemSectionLinesAnimation = () => {
+        const problemSection = document.querySelector('.red-section');
+        const approaches = document.querySelectorAll('.approach');
+
+        if (!problemSection || approaches.length === 0) return;
+
+        let linesAnimated = false;
+
+        const animateLines = () => {
+            if (linesAnimated) return;
+            linesAnimated = true;
+
+            // First animate vertical line
+            problemSection.classList.add('animate-vertical-line');
+
+            // Then animate horizontal lines sequentially after vertical line completes
+            setTimeout(() => {
+                approaches.forEach((approach, index) => {
+                    setTimeout(() => {
+                        approach.classList.add('animate-line');
+                    }, index * 200); // 200ms delay between each horizontal line
+                });
+            }, 800); // Wait for vertical line animation to complete (0.8s)
+        };
+
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateLines();
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(problemSection);
+    };
+
     const init = () => {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
@@ -241,6 +387,9 @@
                 initEncryptEffect();
                 initParallaxFooter();
                 initNavGlassEffect();
+                initProblemSectionBgTransition();
+                initServiceCardsAnimation();
+                initProblemSectionLinesAnimation();
             });
         } else {
             initScrollReveal();
@@ -248,6 +397,9 @@
             initEncryptEffect();
             initParallaxFooter();
             initNavGlassEffect();
+            initProblemSectionBgTransition();
+            initServiceCardsAnimation();
+            initProblemSectionLinesAnimation();
         }
     };
 

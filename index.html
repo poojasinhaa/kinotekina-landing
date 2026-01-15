@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTONOMY LABS — Humanoid Data Infrastructure</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Red+Hat+Mono:wght@400;500;600;700&family=Doto:wght@700;800&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"></script>
     <style>
         :root {
             --red: #FF0000;
@@ -56,11 +58,11 @@
         /* Grid lines background */
         .grid-bg {
             position: fixed;
-            top: 0;
+            top: 100vh;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-image: 
+            height: calc(100% - 100vh);
+            background-image:
                 linear-gradient(rgba(255,0,0,0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,0,0,0.03) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -79,7 +81,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
+            background: transparent;
             transition: background 0.2s ease, backdrop-filter 0.2s ease, transform 0.3s ease;
             min-height: auto;
             max-height: 80px;
@@ -120,16 +122,18 @@
         }
 
         .nav-links a {
-            color: var(--gray-light);
+            color: var(--red);
             text-decoration: none;
             font-size: 0.75rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            transition: color 0.3s;
+            transition: color 0.3s, transform 0.3s, font-size 0.3s;
+            display: inline-block;
         }
 
         .nav-links a:hover {
             color: var(--red);
+            font-size: 0.9rem;
         }
 
         nav.scrolled .nav-links a {
@@ -180,54 +184,107 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            padding: 120px 80px 80px;
+            justify-content: flex-end;
+            padding: 80px;
+            padding-bottom: 100px;
             position: relative;
             overflow: hidden;
         }
 
         .header-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.4), transparent);
-            z-index: 5;
-            pointer-events: none;
+            display: none;
         }
 
-        .threejs-container {
+        .hero-content-box {
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: none;
+            padding: 30px 40px;
+            position: absolute;
+            bottom: 50px;
+            left: 80px;
+            z-index: 10;
+            max-width: 850px;
+            border-radius: 0 4px 4px 4px;
+        }
+
+        /* Folder tab */
+        .hero-content-box::after {
+            content: 'FORWARD DEPLOYED RESEARCH UNIT';
+            position: absolute;
+            top: -25px;
+            left: -1px;
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: none;
+            padding: 5px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.15em;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Noise overlay */
+        .hero-content-box::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 4px 4px 4px 4px;
+        }
+
+        .hero-content-box > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .spline-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 0;
-            opacity: 0.12;
-            transition: opacity 0.3s ease;
-            pointer-events: auto;
+            pointer-events: none;
         }
 
-        .threejs-container:hover {
-            opacity: 0.25;
+        .spline-container spline-viewer {
+            width: 100%;
+            height: 100%;
         }
 
-        .threejs-container canvas {
-            display: block;
+        .spline-container spline-viewer::part(logo),
+        .spline-container spline-viewer #logo,
+        .spline-container spline-viewer [id*="logo"],
+        .spline-container spline-viewer a[href*="spline"] {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
+        /* Cover the bottom-right corner where Spline logo appears */
+        .spline-container::after {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            cursor: grab;
-            pointer-events: auto;
+            bottom: 0;
+            right: 0;
+            width: 500px;
+            height: 150px;
+            background: radial-gradient(ellipse at bottom right, #141514 0%, #141514 40%, transparent 75%);
+            z-index: 10;
+            pointer-events: none;
         }
 
-        .threejs-container canvas:active {
-            cursor: grabbing;
-        }
-
-        .header-section > *:not(.threejs-container) {
+        .header-section > *:not(.spline-container):not(.hero-content-box) {
             position: relative;
             z-index: 10;
             pointer-events: none;
@@ -242,20 +299,20 @@
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
+            gap: 8px;
+            padding: 8px 12px;
             background: #232323;
             color: var(--white);
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            margin-top: 50px;
+            margin-top: 0;
             margin-bottom: 12px;
             width: fit-content;
             border-radius: 2px 0 1px 2px;
             overflow: hidden;
-            clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%);
         }
 
         .hero-badge::before {
@@ -266,11 +323,11 @@
 
         .hero-title {
             font-family: 'Doto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 700;
-            line-height: 0.9;
+            line-height: 0.85;
             letter-spacing: -0.02em;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .hero-title .highlight {
@@ -281,12 +338,12 @@
 
         .hero-subtitle {
             font-family: 'Red Hat Mono', monospace;
-            font-size: clamp(0.75rem, 2vw, 1.15rem);
+            font-size: clamp(0.7rem, 1.5vw, 0.95rem);
             font-weight: 400;
             color: var(--gray-light);
             max-width: 600px;
-            line-height: 1.6;
-            margin-bottom: 60px;
+            line-height: 1.5;
+            margin-bottom: 30px;
             letter-spacing: -0.01em;
         }
 
@@ -328,12 +385,12 @@
         }
 
         .btn-primary {
-            background: var(--white);
-            color: var(--black);
+            background: var(--red);
+            color: var(--white);
         }
 
         .btn-primary:hover {
-            background: var(--off-white);
+            background: var(--red-dark);
         }
 
         .btn-secondary {
@@ -412,8 +469,8 @@
         /* Section styling */
         section {
             min-height: 100vh;
-            padding: 120px 80px;
-            margin-bottom: 100px;
+            padding: 80px 80px;
+            margin-bottom: 0;
             position: relative;
             box-sizing: border-box;
         }
@@ -488,7 +545,7 @@
         /* What we do section - consistent style */
         .services-section {
             background: var(--black);
-            padding: 100px 80px;
+            padding: 80px 80px;
             min-height: auto;
         }
 
@@ -625,7 +682,7 @@
         /* Problem section - PlayerZero style */
         .problem-section {
             background: var(--black);
-            padding: 100px 80px;
+            padding: 80px 80px;
             min-height: auto;
         }
 
@@ -889,10 +946,13 @@
         }
 
         .tech-section-inner {
-            background: #141414;
+            background: #2F2629 url('background section 5.png') no-repeat left bottom;
+            background-size: 90%;
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             padding: 80px;
+            position: relative;
+            overflow: hidden;
         }
 
         .tech-headline {
@@ -926,18 +986,26 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            position: relative;
         }
 
         .tech-card {
             padding: 24px 28px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            background: transparent;
-            transition: background 0.3s ease, border-color 0.3s ease;
+            background: #1F1A1C;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        .tech-card.revealed {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .tech-card:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: #2a2426;
             border-color: rgba(255, 255, 255, 0.2);
         }
 
@@ -998,6 +1066,138 @@
             }
         }
 
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 80px;
+            background: linear-gradient(180deg, var(--black) 0%, #0d0d0d 100%);
+        }
+
+        .faq-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .faq-header h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: calc(-0.02em - 4px);
+            text-transform: uppercase;
+        }
+
+        .faq-header p {
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item.active {
+            border-color: rgba(255, 0, 0, 0.2);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 28px;
+            cursor: pointer;
+        }
+
+        .faq-question h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--white);
+            transition: color 0.3s ease;
+        }
+
+        .faq-question:hover h3 {
+            color: var(--red);
+        }
+
+        .faq-toggle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.4);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+            color: var(--red);
+        }
+
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-answer-inner {
+            overflow: hidden;
+        }
+
+        .faq-item.active .faq-answer {
+            grid-template-rows: 1fr;
+        }
+
+        .faq-answer p {
+            font-family: 'Red Hat Mono', monospace;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+            padding: 0 28px 24px 28px;
+        }
+
+        @media (max-width: 768px) {
+            .faq-section {
+                padding: 60px 20px;
+            }
+
+            .faq-question {
+                padding: 20px 20px;
+            }
+
+            .faq-question h3 {
+                font-size: 0.85rem;
+            }
+
+            .faq-answer p {
+                padding: 0 20px 20px 20px;
+            }
+        }
+
         /* Blueprint section - PlayerZero style */
         .blueprint-section {
             background: transparent;
@@ -1005,7 +1205,7 @@
             overflow: hidden;
             margin-bottom: 0;
             min-height: auto;
-            padding-bottom: 60px;
+            padding: 80px 80px;
         }
 
         .blueprint-header {
@@ -1050,7 +1250,7 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            background: transparent;
+            background: #2F2629;
         }
 
         .blueprint-icon svg {
@@ -1237,7 +1437,7 @@
         /* Footer - MAYDA Style */
         footer {
             background: #F90F06;
-            padding: 60px 80px 80px;
+            padding: 80px 80px;
             position: relative;
             overflow: hidden;
             min-height: 400px;
@@ -1395,11 +1595,11 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: opacity 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         .footer-link:hover {
-            opacity: 0.6;
+            color: var(--white);
         }
 
         .footer-link .arrow {
@@ -1556,7 +1756,7 @@
         .section-timeline {
             position: fixed;
             left: 0;
-            top: 200px;
+            bottom: 270px;
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -1656,9 +1856,13 @@
             <span class="timeline-line"></span>
             <span class="timeline-number">06</span>
         </div>
-        <div class="timeline-item" data-section="footer">
+        <div class="timeline-item" data-section="faq">
             <span class="timeline-line"></span>
             <span class="timeline-number">07</span>
+        </div>
+        <div class="timeline-item" data-section="footer">
+            <span class="timeline-line"></span>
+            <span class="timeline-number">08</span>
         </div>
     </div>
 
@@ -1678,22 +1882,24 @@
     </nav>
 
     <section class="header-section hero">
-        <div class="threejs-container" id="threejs-container"></div>
-        <div class="hero-badge">Forward Deployed Research Unit</div>
-        <h1 class="hero-title">
-            <span class="highlight">HUMANOID</span><br>
-            DATA<br>
-            INFRASTRUCTURE
-        </h1>
-        <p class="hero-subtitle">
-            Factory-embedded data collection for the robotics era. 
-            We capture, process, and deliver manipulation trajectories at scale.
-        </p>
-        <div class="hero-cta">
-            <a href="#contact" class="btn btn-primary">GET DATA</a>
-            <a href="#services" class="btn btn-secondary">LEARN MORE <span class="arrow">→</span></a>
+        <div class="spline-container">
+            <spline-viewer url="https://prod.spline.design/DL5i8BLwRdY5cjX6/scene.splinecode" events-target="none"></spline-viewer>
         </div>
-        <div class="hero-side">FIELD ZONE: INDUSTRIAL CORRIDOR</div>
+        <div class="hero-content-box">
+            <h1 class="hero-title">
+                <span class="highlight">HUMANOID</span><br>
+                DATA<br>
+                INFRASTRUCTURE
+            </h1>
+            <p class="hero-subtitle">
+                Factory-embedded data collection for the robotics era.
+                We capture, process, and deliver manipulation trajectories at scale.
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">GET DATA</a>
+                <a href="#services" class="btn btn-secondary">LEARN MORE <span class="arrow">→</span></a>
+            </div>
+        </div>
         
         <div class="stats-bar">
             <div class="stat">
@@ -2023,13 +2229,95 @@
         </div>
     </section>
 
+    <section id="faq" class="faq-section">
+        <div class="faq-content">
+            <div class="faq-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>If you can't find an answer here, reach out to us at <a href="mailto:hello@otonomylabs.com" style="color: var(--red); text-decoration: none;">hello@otonomylabs.com</a></p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What kind of data do you capture?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p>We capture factory-embedded manipulation data using head-mounted egocentric cameras paired with dual wrist cameras. This includes raw video streams, 3D hand joint trajectories, and task-labeled manipulation sequences. All data is integrated with motion capture systems for ground truth validation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How accurate are your trajectory extractions?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p>Our pipeline achieves sub-3mm pose accuracy using state-of-the-art SAM 3D body estimation combined with Depth Pro monocular depth and multi-view triangulation. Every trajectory is validated against biomechanical constraints and undergoes physics-based quality validation with human review.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Why is your approach better than teleoperation or simulation?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p>Teleoperation requires expensive hardware and is limited to lab environments. Simulation suffers from the sim-to-real gap and unrealistic physics. Internet video lacks depth data and ground truth. Our dedicated infrastructure captures real humans performing real tasks in real factories, providing physics-validated trajectories at scale without these limitations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What data formats do you support?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p>We deliver training-ready datasets in standardized formats compatible with major robotics frameworks. This includes raw video streams, extracted 3D joint trajectories (quality-filtered and physics-validated), and task-labeled sequences with domain-specific taxonomies. Data is accessible via streaming delivery and comprehensive API endpoints.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much data do you have available?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p>Our infrastructure has captured over 100,000 hours of manipulation data, resulting in more than 10 million trajectories. Our pipeline runs 24/7, continuously collecting and processing new data from factory environments. Petabyte-scale storage ensures we can scale to meet any training requirements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I get custom data collection for specific tasks?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <p>Yes, we offer custom data collection programs tailored to your specific manipulation tasks and industrial environments. Our forward-deployed research teams can capture data for your unique use cases. Contact us to discuss your requirements and we'll design a collection program that fits your needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-cta-section">
             <div class="footer-cta-content">
                 <h3 class="footer-cta-title">GET DATA</h3>
                 <p class="footer-cta-text">Ready to train your humanoid? Access factory-captured manipulation trajectories at scale.</p>
-                <a href="mailto:hello@otonomylabs.com" class="footer-cta-btn">CONTACT US →</a>
+                <a href="mailto:hello@otonomylabs.com" class="footer-cta-btn">CONTACT US</a>
             </div>
         </div>
         <div class="footer-top">
@@ -2041,162 +2329,60 @@
                 </div>
             </div>
             <div class="footer-col">
-                <a href="https://twitter.com" class="footer-link" target="_blank">Twitter <span class="arrow">→</span></a>
-                <a href="https://linkedin.com" class="footer-link" target="_blank">LinkedIn <span class="arrow">→</span></a>
-                <a href="https://github.com" class="footer-link" target="_blank">Github <span class="arrow">→</span></a>
+                <a href="https://twitter.com" class="footer-link" target="_blank">Twitter</a>
+                <a href="https://linkedin.com" class="footer-link" target="_blank">LinkedIn</a>
+                <a href="https://github.com" class="footer-link" target="_blank">Github</a>
             </div>
             <div class="footer-col">
                 <span class="footer-copyright-text">© 2026<br>Otonomy Labs Inc.</span>
             </div>
             <div class="footer-col">
-                <a href="#" class="footer-link">Terms & Conditions <span class="arrow">→</span></a>
-                <a href="#" class="footer-link">Privacy Policy <span class="arrow">→</span></a>
+                <a href="#" class="footer-link">Terms & Conditions</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
             </div>
         </div>
     </footer>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
-                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
-            }
-        }
-    </script>
-
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-        let container, camera, scene, renderer, controls;
-        const clock = new THREE.Clock();
-        let isInteracting = false;
-        let autoRotate = true;
-
-        function init() {
-            container = document.getElementById('threejs-container');
-            if (!container) return;
-
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 15000);
-            camera.position.z = 1000;
-
-            scene = new THREE.Scene();
-            scene.fog = new THREE.Fog(0x000000, 1, 15000);
-
-            const pointLight = new THREE.PointLight(0xff0000, 2, 0, 0);
-            pointLight.position.set(0, 0, 0);
-            scene.add(pointLight);
-
-            const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-            dirLight.position.set(0, 0, 1).normalize();
-            scene.add(dirLight);
-
-            const geometry = [
-                [new THREE.IcosahedronGeometry(100, 16), 50],
-                [new THREE.IcosahedronGeometry(100, 8), 300],
-                [new THREE.IcosahedronGeometry(100, 4), 1000],
-                [new THREE.IcosahedronGeometry(100, 2), 2000],
-                [new THREE.IcosahedronGeometry(100, 1), 8000]
-            ];
-
-            const material = new THREE.MeshLambertMaterial({ 
-                color: 0xffffff, 
-                wireframe: true 
-            });
-
-            for (let j = 0; j < 500; j++) {
-                const lod = new THREE.LOD();
-
-                for (let i = 0; i < geometry.length; i++) {
-                    const mesh = new THREE.Mesh(geometry[i][0], material);
-                    mesh.scale.set(1.5, 1.5, 1.5);
-                    mesh.updateMatrix();
-                    mesh.matrixAutoUpdate = false;
-                    lod.addLevel(mesh, geometry[i][1]);
-                }
-
-                lod.position.x = 10000 * (0.5 - Math.random());
-                lod.position.y = 7500 * (0.5 - Math.random());
-                lod.position.z = 10000 * (0.5 - Math.random());
-                lod.updateMatrix();
-                lod.matrixAutoUpdate = false;
-                scene.add(lod);
-            }
-
-            renderer = new THREE.WebGLRenderer({ 
-                antialias: true,
-                alpha: true 
-            });
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setAnimationLoop(animate);
-            container.appendChild(renderer.domElement);
-
-            // Add OrbitControls for interaction
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableZoom = false;
-            controls.enablePan = false;
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 0.5;
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-
-            // Disable auto-rotate when user interacts
-            controls.addEventListener('start', () => {
-                isInteracting = true;
-                autoRotate = false;
-                controls.autoRotate = false;
-            });
-
-            controls.addEventListener('end', () => {
-                isInteracting = false;
-                // Re-enable auto-rotate after a delay
-                setTimeout(() => {
-                    if (!isInteracting) {
-                        autoRotate = true;
-                        controls.autoRotate = true;
-                    }
-                }, 2000);
-            });
-
-            // Prevent scrolling when interacting with canvas
-            renderer.domElement.addEventListener('wheel', (e) => {
-                if (isInteracting) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-
-            window.addEventListener('resize', onWindowResize);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function animate() {
-            const delta = clock.getDelta();
-            
-            if (controls) {
-                controls.update();
-            }
-            
-            // Fallback animation when not interacting
-            if (!isInteracting && autoRotate) {
-                const time = clock.getElapsedTime();
-                camera.position.x = Math.sin(time * 0.1) * 500;
-                camera.position.y = Math.cos(time * 0.15) * 300;
-                camera.lookAt(0, 0, 0);
-            }
-            
-            renderer.render(scene, camera);
-        }
-
-        init();
-    </script>
-
     <script src="main.js"></script>
+
+    <!-- Hide Spline watermark -->
+    <script>
+        (function() {
+            function hideSplineLogo() {
+                const viewer = document.querySelector('spline-viewer');
+                if (viewer && viewer.shadowRoot) {
+                    const logo = viewer.shadowRoot.querySelector('#logo');
+                    if (logo) {
+                        logo.style.display = 'none';
+                        logo.remove();
+                    }
+                    // Also try to find any anchor links to spline
+                    const links = viewer.shadowRoot.querySelectorAll('a[href*="spline"]');
+                    links.forEach(link => {
+                        link.style.display = 'none';
+                        link.remove();
+                    });
+                }
+            }
+
+            // Run multiple times to catch it after load
+            setTimeout(hideSplineLogo, 100);
+            setTimeout(hideSplineLogo, 500);
+            setTimeout(hideSplineLogo, 1000);
+            setTimeout(hideSplineLogo, 2000);
+            setTimeout(hideSplineLogo, 3000);
+
+            // Also observe for changes
+            const observer = new MutationObserver(hideSplineLogo);
+            const viewer = document.querySelector('spline-viewer');
+            if (viewer) {
+                observer.observe(viewer, { childList: true, subtree: true });
+                if (viewer.shadowRoot) {
+                    observer.observe(viewer.shadowRoot, { childList: true, subtree: true });
+                }
+            }
+        })();
+    </script>
 
     <!-- Section Timeline Script -->
     <script>
@@ -2209,8 +2395,10 @@
                 { id: 'data', element: document.getElementById('data') },
                 { id: 'tech', element: document.getElementById('tech') },
                 { id: 'tech-stack', element: document.getElementById('tech-stack') },
+                { id: 'faq', element: document.getElementById('faq') },
                 { id: 'footer', element: document.querySelector('footer') }
             ];
+            let ticking = false;
 
             function updateActiveSection() {
                 const scrollPosition = window.scrollY + window.innerHeight / 3;
@@ -2238,9 +2426,15 @@
                         item.classList.add('far');
                     }
                 });
+                ticking = false;
             }
 
-            window.addEventListener('scroll', updateActiveSection);
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(updateActiveSection);
+                    ticking = true;
+                }
+            });
             updateActiveSection();
         })();
 
@@ -2277,6 +2471,52 @@
                     requestAnimationFrame(updateNav);
                     ticking = true;
                 }
+            });
+        })();
+
+        // Progressive Reveal Animation for Section 6 Cards
+        (function() {
+            const cards = document.querySelectorAll('.tech-card');
+
+            if (!cards.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add staggered delay based on card index
+                        const card = entry.target;
+                        const index = Array.from(cards).indexOf(card);
+                        setTimeout(() => {
+                            card.classList.add('revealed');
+                        }, index * 150);
+                    }
+                });
+            }, {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            cards.forEach(card => observer.observe(card));
+        })();
+
+        // FAQ Toggle Functionality
+        (function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
             });
         })();
     </script>

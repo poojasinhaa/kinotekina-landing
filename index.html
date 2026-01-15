@@ -249,12 +249,17 @@
         .spline-container spline-viewer {
             width: 100%;
             height: 100%;
+            pointer-events: none;
         }
 
         .spline-container spline-viewer::part(logo),
+        .spline-container spline-viewer::part(hint),
         .spline-container spline-viewer #logo,
         .spline-container spline-viewer [id*="logo"],
-        .spline-container spline-viewer a[href*="spline"] {
+        .spline-container spline-viewer [id*="hint"],
+        .spline-container spline-viewer a[href*="spline"],
+        .spline-container spline-viewer img[alt*="hint"],
+        .spline-container spline-viewer img[src*="hint"] {
             display: none !important;
             opacity: 0 !important;
             visibility: hidden !important;
@@ -2035,7 +2040,7 @@
 
     <section class="header-section hero">
         <div class="spline-container">
-            <spline-viewer url="https://prod.spline.design/DL5i8BLwRdY5cjX6/scene.splinecode" events-target="none"></spline-viewer>
+            <spline-viewer url="https://prod.spline.design/DL5i8BLwRdY5cjX6/scene.splinecode" events-target="none" loading-anim-type="none" hint="false" mouse-target="none"></spline-viewer>
         </div>
         <div class="hero-content-box">
             <h1 class="hero-title">
@@ -2497,17 +2502,30 @@
 
     <script src="main.js"></script>
 
-    <!-- Hide Spline watermark and optimize performance -->
+    <!-- Hide Spline watermark, hint and optimize performance -->
     <script>
         (function() {
-            function hideSplineLogo() {
+            function hideSplineElements() {
                 const viewer = document.querySelector('spline-viewer');
                 if (viewer && viewer.shadowRoot) {
+                    // Hide logo
                     const logo = viewer.shadowRoot.querySelector('#logo');
                     if (logo) {
                         logo.style.display = 'none';
                         logo.remove();
                     }
+                    // Hide hint/interaction icon
+                    const hint = viewer.shadowRoot.querySelector('#hint');
+                    if (hint) {
+                        hint.style.display = 'none';
+                        hint.remove();
+                    }
+                    // Hide any element with hint in class or id
+                    const hintElements = viewer.shadowRoot.querySelectorAll('[id*="hint"], [class*="hint"], img');
+                    hintElements.forEach(el => {
+                        el.style.display = 'none';
+                        el.remove();
+                    });
                     // Also try to find any anchor links to spline
                     const links = viewer.shadowRoot.querySelectorAll('a[href*="spline"]');
                     links.forEach(link => {
@@ -2518,14 +2536,15 @@
             }
 
             // Run multiple times to catch it after load
-            setTimeout(hideSplineLogo, 100);
-            setTimeout(hideSplineLogo, 500);
-            setTimeout(hideSplineLogo, 1000);
-            setTimeout(hideSplineLogo, 2000);
-            setTimeout(hideSplineLogo, 3000);
+            setTimeout(hideSplineElements, 100);
+            setTimeout(hideSplineElements, 500);
+            setTimeout(hideSplineElements, 1000);
+            setTimeout(hideSplineElements, 2000);
+            setTimeout(hideSplineElements, 3000);
+            setTimeout(hideSplineElements, 5000);
 
             // Also observe for changes
-            const observer = new MutationObserver(hideSplineLogo);
+            const observer = new MutationObserver(hideSplineElements);
             const viewer = document.querySelector('spline-viewer');
             if (viewer) {
                 observer.observe(viewer, { childList: true, subtree: true });
@@ -2542,10 +2561,8 @@
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             viewer.style.opacity = '1';
-                            viewer.style.pointerEvents = 'auto';
                         } else {
                             viewer.style.opacity = '0';
-                            viewer.style.pointerEvents = 'none';
                         }
                     });
                 }, { threshold: 0, rootMargin: '100px 0px 100px 0px' });

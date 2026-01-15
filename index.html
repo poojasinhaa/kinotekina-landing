@@ -1817,6 +1817,163 @@
                 display: none;
             }
         }
+
+        /* Tablet Breakpoint (768px - 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            /* Header/Hero */
+            .header-section {
+                height: 80vh;
+                min-height: 600px;
+                padding: 60px 40px 40px;
+            }
+
+            .hero-content-box {
+                left: 40px;
+                right: auto;
+                bottom: 40px;
+                max-width: 500px;
+                padding: 25px 30px;
+            }
+
+            .hero-title {
+                font-size: clamp(1.8rem, 4vw, 2.5rem);
+                margin-bottom: 15px;
+            }
+
+            .hero-subtitle {
+                font-size: 0.75rem;
+                margin-bottom: 15px;
+            }
+
+            .hero-cta {
+                gap: 10px;
+            }
+
+            .hero-cta .btn {
+                padding: 10px 18px;
+                font-size: 0.65rem;
+            }
+
+            /* Disable Spline interaction on tablet */
+            .spline-container {
+                pointer-events: none;
+            }
+
+            .spline-container spline-viewer {
+                pointer-events: none;
+            }
+
+            /* Navigation */
+            .nav-links {
+                gap: 25px;
+            }
+
+            .nav-links a {
+                font-size: 0.65rem;
+            }
+
+            .nav-login {
+                padding: 12px 20px;
+                font-size: 0.75rem;
+            }
+
+            /* Sections */
+            section {
+                padding: 60px 40px;
+            }
+
+            /* Services */
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .service-card {
+                padding: 30px;
+            }
+
+            /* Problem Section */
+            .problem-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .approach {
+                padding: 20px;
+            }
+
+            .problem-cta {
+                padding-left: 0;
+            }
+
+            /* Data Section */
+            .data-section {
+                padding: 60px 40px;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            /* Tech Section */
+            .tech-section-inner {
+                padding: 50px;
+            }
+
+            .tech-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .tech-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* FAQ Section */
+            .faq-section {
+                padding: 60px 40px;
+            }
+
+            .faq-question-text {
+                font-size: 0.9rem;
+            }
+
+            /* Footer */
+            .footer {
+                padding: 60px 40px 30px;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px 40px;
+            }
+
+            .footer-cta h2 {
+                font-size: 1.5rem;
+            }
+
+            /* Stats Bar */
+            .stats-bar {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .stat-item {
+                min-width: 120px;
+            }
+
+            /* Contact Section */
+            .contact-section {
+                padding: 60px 40px;
+            }
+
+            .contact-email {
+                font-size: 1rem;
+                padding: 14px 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2414,6 +2571,75 @@
             let ticking = false;
             let lastActiveIndex = -1;
 
+            // Haptic click sound using Web Audio API
+            let audioContext = null;
+            let audioEnabled = false;
+
+            // Enable audio on first user interaction
+            function enableAudio() {
+                if (!audioEnabled) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    if (audioContext.state === 'suspended') {
+                        audioContext.resume();
+                    }
+                    audioEnabled = true;
+                }
+            }
+
+            // Listen for any user interaction to enable audio
+            ['click', 'touchstart', 'scroll'].forEach(event => {
+                document.addEventListener(event, enableAudio, { once: false, passive: true });
+            });
+
+            function playHapticClick() {
+                if (!audioEnabled || !audioContext) return;
+
+                try {
+                    if (audioContext.state === 'suspended') {
+                        audioContext.resume();
+                    }
+
+                    const t = audioContext.currentTime;
+
+                    // Create noise buffer for click texture
+                    const bufferSize = audioContext.sampleRate * 0.02;
+                    const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                    const output = noiseBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                    }
+
+                    const noise = audioContext.createBufferSource();
+                    noise.buffer = noiseBuffer;
+
+                    // High-pass filter for sharp attack
+                    const highpass = audioContext.createBiquadFilter();
+                    highpass.type = 'highpass';
+                    highpass.frequency.setValueAtTime(1500, t);
+
+                    // Bandpass for mechanical character
+                    const bandpass = audioContext.createBiquadFilter();
+                    bandpass.type = 'bandpass';
+                    bandpass.frequency.setValueAtTime(2500, t);
+                    bandpass.Q.setValueAtTime(2, t);
+
+                    // Sharp envelope for click
+                    const gainNode = audioContext.createGain();
+                    gainNode.gain.setValueAtTime(0.12, t);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.015);
+
+                    noise.connect(highpass);
+                    highpass.connect(bandpass);
+                    bandpass.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    noise.start(t);
+                    noise.stop(t + 0.02);
+                } catch (e) {
+                    console.log('Audio error:', e);
+                }
+            }
+
             function updateActiveSection() {
                 const scrollPosition = window.scrollY + window.innerHeight / 3;
                 let activeIndex = 0;
@@ -2429,6 +2655,11 @@
 
                 // Only update DOM if active section changed
                 if (activeIndex !== lastActiveIndex) {
+                    // Play haptic sound on section change
+                    if (lastActiveIndex !== -1) {
+                        playHapticClick();
+                    }
+
                     timelineItems.forEach((item, index) => {
                         item.classList.remove('active', 'adjacent', 'far');
 
